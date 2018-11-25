@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>To-Do LiSt</title>
+	<meta charset="utf-8">
+	<link href='style.css' rel="stylesheet" type='text/css'/>
+</head>
+<body>
+    <main>
+        <div id='main'>
+            <div id='input'>
+               <div id='inputform'>
+                    <form>
+                        <label>Title:</label></br>
+                        <input type='text' id='title' class='input'/>
+                        <label>Content:</label></br>
+                        <input type='text' id='content' class='input'/>
+                        <label>Topic:</label></br>
+                        <select class='input select' value='null' id='topic'>
+                            <option value='Mathematics'>Mathematics</option>
+                            <option value='Information Technology'>Information Technology</option>
+                            <option value='Physics'>Physics</option>
+                            <option value='Biology'>Biology</option>
+                            <option value='Ecology'>Ecology</option>
+                            <option value='Chemisty'>Chemisty</option>
+                            <option value='Geography'>Geography</option>
+                            <option value='Foreign Languages'>Foreign Languages</option>
+                            <option value='History'>History</option>
+                            <option value='Arts'>Arts</option>
+                            <option value='Politology'>Politology</option>
+                            <option value='Philosophy'>Philosophy</option>
+                            <option value='Humanism'>Humanism</option>
+                            <option value='Ethics'>Ethics</option>
+                            <option value='Theology'>Theology</option>
+                            <option value='Physical Education'>Physical Education</option>
+                            <option value='Physical Health'>Physical Health</option>
+                        </select>
+                        <button type='button' id='submit' class='input'>Submit</button>
+                    </form>
+                </div>
+            </div>
+            <div id='cards'></div>
+        </div>
+	</main>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src='script.js'></script>
+</body>
+</html>
