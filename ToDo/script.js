@@ -22,8 +22,8 @@ $(document).ready(()=>{
             topic='topicless';
         }
         
-        title = title.slice(0,10);
-        content = content.slice(0,20);
+        title = title.slice(0,20);
+        content = content.slice(0,25);
         
         $('#title').val('');
         $('#content').val('');
