@@ -1,5 +1,6 @@
 # JS-Practice-ToDo
-The test meant to test my HTML, CSS, JS and jQuery skills. 
-I guess that I will need to practice more jQuery, 
-learn how to write HTML, CSS and JS more aesthetically 
-and create less redudancy in my code at the same time.
+
+A very basic project consisting of one image, HTML, CSS and JS files made with little help of jQuery and localStorage API.
+
+Fill up the form and submit the values to create to-do tabs in your to-do list.
+The tabs are going to be remembered even if you close your browser thanks to localStorage API.
