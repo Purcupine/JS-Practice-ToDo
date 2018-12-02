@@ -3,12 +3,85 @@ $(document).ready(()=>{
     $('#content').val(null);
     $('#topic').val('');
     let x = 0;
-    let id = 0;
-    $('#submit').on('click', ()=>{
-        
+    //localStorage.setItem('items-currently',0);
+    //localStorage.clear();
+    let id = localStorage.getItem('items-currently');
+    if(!id){
+        id = 0;
+    }
+    
+    const createCard = (title, content, topic, color) => {
+        const card = {
+            maincontainer: document.createElement('DIV'),
+            subcontainer: document.createElement('DIV'),
+            contentcontainers: [
+                document.createElement('DIV'),
+                document.createElement('DIV'),
+                document.createElement('DIV')
+            ],
+            content: [
+                document.createTextNode(title),
+                document.createTextNode(content),
+                document.createTextNode(topic),
+            ],
+            button: document.createElement('button'),
+            color: color
+        }
+        return card;
+    };
+    
+    const threadCard = (new_card) => {
+            for(let i in new_card.contentcontainers){
+                new_card.contentcontainers[i].appendChild(new_card.content[i]);
+                console.log(i);
+            }
+
+            new_card.maincontainer.classList.add('card');
+            new_card.subcontainer.classList.add('card-content');
+
+            new_card.contentcontainers[0].classList.add(`card-title`);
+            new_card.contentcontainers[0].classList.add(`card-data`);
+            new_card.contentcontainers[1].classList.add(`card-data`);
+            new_card.contentcontainers[2].classList.add(`card-data`);
+
+            new_card.button.appendChild(document.createTextNode('×'));
+            new_card.button.classList.add('button-x');
+            new_card.button.type = 'button';
+            new_card.button.id = `close${id}`;
+            new_card.button.addEventListener('click',(x)=>{
+                const n = x.target.parentElement.parentElement.id;
+                const arr = [`title${n}`, `content${n}`, `topic${n}`, `color${n}`];
+                id--;   
+                for(let i in arr){
+                    localStorage.removeItem(arr[i]);
+                    console.log(arr[i]);
+                }
+                x.target.parentElement.parentElement.style.display = 'none'; 
+                localStorage.setItem('items-currently',id);
+            });
+            new_card.subcontainer.style.position = 'relative';
+            new_card.subcontainer.appendChild(new_card.button);
+
+            for(let i=0;i<3;i++){
+                new_card.subcontainer.appendChild(new_card.contentcontainers[i]);
+            }
+
+            new_card.maincontainer.classList.add(new_card.color);
+            const cards = document.getElementById('cards');
+            
+            new_card.maincontainer.appendChild(new_card.subcontainer);
+            cards.appendChild(new_card.maincontainer);
+        }
+    
+    const appendCardClassically = () => {
         let title = $('#title').val();
         let content = $('#content').val();
         let topic = $('#topic').val();
+        let color;
+        
+        $('#title').val('');
+        $('#content').val('');
+        $('#topic').val('');
         
         if(title===''){
             title='Titleless';
@@ -25,70 +98,45 @@ $(document).ready(()=>{
         title = title.slice(0,20);
         content = content.slice(0,25);
         
-        $('#title').val('');
-        $('#content').val('');
-        $('#topic').val('');
-        
-        const card = document.createElement('DIV');
-        const cardContent = document.createElement('DIV');
-        const titleNode = document.createElement('DIV');
-        const contentNode = document.createElement('DIV');
-        const topicNode = document.createElement('DIV');
-        
-        const titleText = document.createTextNode(title);
-        const contentText = document.createTextNode(content);
-        const topicText = document.createTextNode(topic);
-        
-        titleNode.appendChild(titleText);
-        contentNode.appendChild(contentText);
-        topicNode.appendChild(topicText);
-        
-        card.classList.add('card');
-        cardContent.classList.add('card-content');
-        titleNode.classList.add('card-data');  
-        titleNode.classList.add('card-title');
-        contentNode.classList.add('card-data');
-        topicNode.classList.add('card-data');
-        
-        const xButton = document.createElement('button');
-        const xButtonContent = document.createTextNode('×');
-        xButton.style.background = 'linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2))';
-        xButton.style.position = 'absolute';
-        xButton.style.right = '50px';
-        xButton.style.top = '50px';
-        xButton.style.padding = '0px';
-        xButton.style.border = 'none';
-        xButton.style.width = '80px';
-        xButton.style.height = '80px';
-        xButton.style.fontSize = '50px';
-        xButton.type = 'button';
-        xButton.style.borderRadius = '80px';
-        xButton.id = `close${id}`;
-        xButton.addEventListener('click',(x)=>{x.target.parentElement.parentElement.style.display = 'none';})
-        xButton.appendChild(xButtonContent);
-        cardContent.appendChild(xButton);
-        
-        cardContent.style.position = 'relative';
-        
-        cardContent.appendChild(titleNode);
-        cardContent.appendChild(contentNode);
-        cardContent.appendChild(topicNode);
-        
         const classes = ['card-red', 'card-orange', 'card-yellow', 'card-lime', 'card-cyan', 'card-blue', 'card-purple'];
-        
-        card.classList.add(classes[x]);
-        card.classList.add(`.card${id}`);
-
+        color = classes[x];
         x++;
         if(x>=7){
             x=0;
         }
+        
+        const new_card = createCard(title, content, topic, color);
+        
+        threadCard(new_card);
+        
         id++;
-        
-        const cards = document.getElementById('cards');
-        
-        card.appendChild(cardContent);
-        cards.appendChild(card);
-        
+        new_card.maincontainer.id = `${id}`;
+        localStorage.setItem('items-currently', id);
+        localStorage.setItem(`title${id}`, title);
+        localStorage.setItem(`content${id}`, content);
+        localStorage.setItem(`topic${id}`, topic);
+        localStorage.setItem(`color${id}`, color);
+    }
+    
+    const appendCardsFromStorage = () => {
+        const how_many = localStorage.getItem('items-currently');
+        console.log(how_many);
+        for(let i = 1;i <= how_many; i++){
+            const title = localStorage.getItem(`title${i}`);
+            const content = localStorage.getItem(`content${i}`);
+            const topic = localStorage.getItem(`topic${i}`);
+            const color = localStorage.getItem(`color${i}`);
+            console.log(`${color} ${title} ${content} ${topic}`);
+            const new_card = createCard(title, content, topic, color);
+            threadCard(new_card);
+        }
+    }
+    
+    if(id>0){
+        appendCardsFromStorage();
+    }
+    
+    $('#submit').on('click', ()=>{
+        appendCardClassically();
     });
 });
